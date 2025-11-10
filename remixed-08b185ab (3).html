@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Factory - Bots Discord Professionnels</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0e27;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(88, 101, 242, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(114, 137, 218, 0.1) 0%, transparent 50%),
+                linear-gradient(180deg, #0a0e27 0%, #1a1f3a 100%);
+        }
+
+        .top-banner {
+            background: linear-gradient(135deg, #5865f2, #7289da);
+            padding: 1rem 2rem;
+            text-align: center;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        .top-banner a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .navbar {
+            background: rgba(15, 20, 45, 0.8);
+            backdrop-filter: blur(20px);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid rgba(88, 101, 242, 0.2);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #5865f2, #7289da, #f47fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #b9bbbe;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #5865f2;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 5rem 2rem 3rem;
+            animation: fadeIn 1s;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #5865f2, #7289da, #f47fff, #43b581);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 10px rgba(88, 101, 242, 0.5)); }
+            50% { filter: drop-shadow(0 0 20px rgba(88, 101, 242, 0.8)); }
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: #b9bbbe;
+            margin-bottom: 2rem;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: rgba(88, 101, 242, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            min-width: 200px;
+            border: 1px solid rgba(88, 101, 242, 0.3);
+            transition: all 0.3s;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            border-color: #5865f2;
+            box-shadow: 0 10px 30px rgba(88, 101, 242, 0.3);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #5865f2, #f47fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            background: linear-gradient(135deg, #5865f2, #7289da, #f47fff, #43b581);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #b9bbbe;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        .plans-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+            margin: 4rem 0;
+        }
+
+        .plan-card {
+            background: rgba(32, 34, 37, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            border: 2px solid rgba(88, 101, 242, 0.2);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .plan-card.premium {
+            border-color: #f47fff;
+            background: rgba(32, 34, 37, 0.8);
+            animation: borderGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { border-color: #f47fff; box-shadow: 0 0 20px rgba(244, 127, 255, 0.3); }
+            50% { border-color: #5865f2; box-shadow: 0 0 30px rgba(88, 101, 242, 0.5); }
+        }
+
+        .plan-card.premium::before {
+            content: '⚡ BOOSTER';
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: linear-gradient(135deg, #f47fff, #5865f2);
+            color: white;
+            padding: 5px 40px;
+            transform: rotate(45deg);
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(88, 101, 242, 0.3);
+        }
+
+        .plan-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .plan-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .plan-name {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-price {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #5865f2, #f47fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin: 2rem 0;
+        }
+
+        .plan-features li {
+            padding: 0.8rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: #b9bbbe;
+            border-bottom: 1px solid rgba(88, 101, 242, 0.1);
+        }
+
+        .plan-features li:last-child {
+            border-bottom: none;
+        }
+
+        .check {
+            color: #43b581;
+            font-weight: bold;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .module-card {
+            background: rgba(32, 34, 37, 0.6);
+            padding: 2.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(88, 101, 242, 0.3);
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .module-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(88, 101, 242, 0.3);
+        }
+
+        .module-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .module-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #5865f2, #7289da, #f47fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .module-desc {
+            color: #b9bbbe;
+            line-height: 1.6;
+        }
+
+        .coming-soon-section {
+            background: linear-gradient(135deg, rgba(88, 101, 242, 0.1), rgba(244, 127, 255, 0.1));
+            border-radius: 20px;
+            padding: 4rem 2rem;
+            margin: 4rem 0;
+            border: 2px solid rgba(88, 101, 242, 0.3);
+            animation: borderPulse 3s infinite;
+        }
+
+        @keyframes borderPulse {
+            0%, 100% { border-color: rgba(88, 101, 242, 0.3); }
+            50% { border-color: rgba(244, 127, 255, 0.5); }
+        }
+
+        .explanation-section {
+            background: rgba(32, 34, 37, 0.6);
+            border-radius: 20px;
+            padding: 4rem 2rem;
+            margin: 4rem 0;
+            border: 2px solid rgba(88, 101, 242, 0.3);
+        }
+
+        .steps-container {
+            max-width: 800px;
+            margin: 3rem auto;
+        }
+
+        .step-item {
+            background: rgba(88, 101, 242, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #5865f2;
+            transition: all 0.3s;
+        }
+
+        .step-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(88, 101, 242, 0.3);
+        }
+
+        .step-number {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #5865f2, #f47fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-desc {
+            color: #b9bbbe;
+            line-height: 1.6;
+        }
+
+        .reviews-section {
+            background: rgba(88, 101, 242, 0.05);
+            border-radius: 20px;
+            padding: 4rem 2rem;
+            margin: 4rem 0;
+        }
+
+        .review-form {
+            max-width: 600px;
+            margin: 2rem auto;
+            background: rgba(32, 34, 37, 0.6);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(88, 101, 242, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #b9bbbe;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(15, 20, 45, 0.6);
+            border: 1px solid rgba(88, 101, 242, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #5865f2;
+            box-shadow: 0 0 10px rgba(88, 101, 242, 0.3);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .review-card {
+            background: rgba(32, 34, 37, 0.6);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(88, 101, 242, 0.3);
+            transition: all 0.3s;
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(88, 101, 242, 0.2);
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .review-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #5865f2, #7289da);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .review-info {
+            flex: 1;
+        }
+
+        .review-name {
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .review-role {
+            font-size: 0.85rem;
+            color: #b9bbbe;
+        }
+
+        .review-stars {
+            color: #ffd700;
+            font-size: 1.2rem;
+        }
+
+        .review-text {
+            color: #b9bbbe;
+            line-height: 1.6;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #5865f2, #7289da);
+            color: white;
+            padding: 1.2rem 3rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(88, 101, 242, 0.5);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid #5865f2;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: rgba(88, 101, 242, 0.05);
+            border-radius: 20px;
+            margin: 4rem 0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .plans-container { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .reviews-grid { grid-template-columns: 1fr; }
+            .modules-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <div class="top-banner">
+        <span>🎉 Rejoignez notre serveur Discord !</span>
+        <a href="https://discord.gg/DAgdAXTntR" target="_blank">
+            <strong>https://discord.gg/DAgdAXTntR</strong> →
+        </a>
+    </div>
+
+    <nav class="navbar">
+        <div class="logo">
+            🤖 Discord Factory
+        </div>
+        <ul class="nav-links">
+            <li><a href="#accueil">Accueil</a></li>
+            <li><a href="#bots">Bots</a></li>
+            <li><a href="#serveurs">Serveurs</a></li>
+            <li><a href="#explication">Tutoriel</a></li>
+            <li><a href="#modules">Modules</a></li>
+            <li><a href="#bientot">Bientôt</a></li>
+            <li><a href="#avis">Avis</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero" id="accueil">
+        <h1>🛡️ Discord Factory</h1>
+        <p>Bots Discord professionnels et serveurs personnalisés</p>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">100+</div>
+                <div>Bots Créés</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">∞</div>
+                <div>Modules</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">24/7</div>
+                <div>Support</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="dashboard" id="bots">
+        <h2 class="section-title">🤖 Nos Bots</h2>
+        <p class="section-subtitle">Bots Discord personnalisés avec modules complets</p>
+
+        <div class="plans-container">
+            <div class="plan-card">
+                <div class="plan-header">
+                    <div class="plan-icon">🆓</div>
+                    <div class="plan-name">Free Bot</div>
+                    <div class="plan-price">GRATUIT</div>
+                </div>
+
+                <ul class="plan-features">
+                    <li><span class="check">✓</span> <strong>Bot personnalisé</strong></li>
+                    <li><span class="check">✓</span> <strong>Hébergement inclus</strong></li>
+                    <li><span class="check">✓</span> <strong>Tous nos modules !</strong></li>
+                    <li><span class="check">✓</span> Sans condition</li>
+                </ul>
+
+                <button class="btn btn-secondary" onclick="window.open('https://discord.gg/DAgdAXTntR', '_blank')">
+                    Obtenir gratuitement
+                </button>
+            </div>
+
+            <div class="plan-card premium">
+                <div class="plan-header">
+                    <div class="plan-icon">⚡</div>
+                    <div class="plan-name">Boost Bot</div>
+                    <div class="plan-price">2 BOOST</div>
+                </div>
+
+                <ul class="plan-features">
+                    <li><span class="check">✓</span> <strong>Offre Free +</strong></li>
+                    <li><span class="check">✓</span> <strong>1 module personnalisé sur-mesure</strong></li>
+                    <li><span class="check">✓</span> <strong>Sans watermarks DiscordFactory</strong></li>
+                    <li><span class="check">✓</span> <strong>Hébergé tant que vous boostez</strong></li>
+                </ul>
+
+                <button class="btn" onclick="window.open('https://discord.gg/DAgdAXTntR', '_blank')">
+                    Booster maintenant
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="dashboard" id="serveurs">
+        <h2 class="section-title">🏰 Création de Serveurs</h2>
+        <p class="section-subtitle">Serveurs Discord clé en main configurés par nos experts</p>
+
+        <div class="plans-container">
+            <div class="plan-card">
+                <div class="plan-header">
+                    <div class="plan-icon">🆓</div>
+                    <div class="plan-name">Free Serveur</div>
+                    <div class="plan-price">GRATUIT</div>
+                </div>
+
+                <ul class="plan-features">
+                    <li><span class="check">✓</span> <strong>Création du serveur</strong></li>
+                    <li><span class="check">✓</span> <strong>Création de rôles avec permissions</strong></li>
+                    <li><span class="check">✓</span> <strong>Création de salons avec permissions</strong></li>
+                    <li><span class="check">✓</span> <strong>Ajout d'émojis et décorations à la demande</strong></li>
+                    <li><span class="check">✓</span> <strong>Configuration départs/arrivées/tickets</strong></li>
+                </ul>
+
+                <button class="btn btn-secondary" onclick="window.open('https://discord.gg/DAgdAXTntR', '_blank')">
+                    Commander gratuitement
+                </button>
+            </div>
+
+            <div class="plan-card premium">
+                <div class="plan-header">
+                    <div class="plan-icon">⚡</div>
+                    <div class="plan-name">Boost Serveur</div>
+                    <div class="plan-price">2 BOOST</div>
+                </div>
+
+                <ul class="plan-features">
+                    <li><span class="check">✓</span> <strong>Création serveur 100% personnalisé</strong></li>
+                    <li><span class="check">✓</span> <strong>Rôles avec permissions et emoji</strong></li>
+                    <li><span class="check">✓</span> <strong>Salons avec écriture spéciale, emoji, symboles</strong></li>
+                    <li><span class="check">✓</span> <strong>Installation complète des bots</strong></li>
+                    <li><span class="check">✓</span> <strong>Installation du guide de serveur</strong></li>
+                    <li><span class="check">✓</span> <strong>Embeds et rôles notifications</strong></li>
+                    <li><span class="check">✓</span> <strong>Assistance à vie via commande dédiée</strong></li>
+                </ul>
+
+                <button class="btn" onclick="window.open('https://discord.gg/DAgdAXTntR', '_blank')">
+                    Réservé pour les boosters
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="explanation-section" id="explication">
+        <h2 class="section-title">📚 Comment créer votre bot ?</h2>
+        <p class="section-subtitle">Suivez ces étapes simples pour lancer votre bot Discord</p>
+
+        <div class="steps-container">
+            <div class="step-item">
+                <div class="step-number">Étape 1</div>
+                <div class="step-title">Rejoindre le Discord</div>
+                <div class="step-desc">Rejoignez notre serveur Discord officiel à l'adresse : <strong>https://discord.gg/DAgdAXTntR</strong></div>
+            </div>
+
+            <div class="step-item">
+                <div class="step-number">Étape 2</div>
+                <div class="step-title">Utiliser la commande</div>
+                <div class="step-desc">Une fois sur le serveur, utilisez la commande <strong>/create-freebot</strong> pour démarrer la création de votre bot</div>
+            </div>
+
+            <div class="step-item">
+                <div class="step-number">Étape 3</div>
+                <div class="step-title">Configurer le token</div>
+                <div class="step-desc">Récupérez le token de votre bot depuis le <strong>Discord Developer Portal</strong> et configurez-le comme indiqué</div>
+            </div>
+
+            <div class="step-item">
+                <div class="step-number">Étape 4</div>
+                <div class="step-title">Lancer votre bot</div>
+                <div class="step-desc">C'est prêt ! Votre bot est maintenant en ligne avec tous les modules disponibles. Profitez-en !</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="dashboard" id="modules">
+        <h2 class="section-title">🎯 Modules Disponibles</h2>
+        <p class="section-subtitle">Modules complets pour gérer votre serveur Discord</p>
+
+        <div class="modules-grid">
+            <div class="module-card">
+                <div class="module-icon">✈️</div>
+                <div class="module-title">Aeroport</div>
+                <div class="module-desc">Gérez les arrivées et départs de membres avec style</div>
+            </div>
+
+            <div class="module-card">
+                <div class="module-icon">🎫</div>
+                <div class="module-title">Système de Tickets</div>
+                <div class="module-desc">Support client professionnel avec gestion complète des tickets</div>
+            </div>
+
+            <div class="module-card">
+                <div class="module-icon">⚙️</div>
+                <div class="module-title">Utilitaires</div>
+                <div class="module-desc">Commandes essentielles pour gérer votre bot</div>
+            </div>
+
+            <div class="module-card">
+                <div class="module-icon">⚡</div>
+                <div class="module-title">FactoryBoost</div>
+                <div class="module-desc">Fonctionnalités premium pour les boosters</div>
+            </div>
+
+            <div class="module-card">
+                <div class="module-icon">🎉</div>
+                <div class="module-title">Fun & Divertissement</div>
+                <div class="module-desc">Giveaway et plus encore</div>
+            </div>
+
+            <div class="module-card">
+                <div class="module-icon">📊</div>
+                <div class="module-title">Modération</div>
+                <div class="module-desc">Outils complets pour gérer et modérer votre serveur</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="coming-soon-section" id="bientot">
+        <h2 class="section-title">🚀 Bientôt Disponible</h2>
+        <p class="section-subtitle">Nouvelles fonctionnalités en développement</p>
+
+        <div class="modules-grid">
+            <div class="module-card">
+                <div class="module-icon">🤖</div>
+                <div class="module-title">IA Intégrée</div>
+                <div class="module-desc">Assistant IA intelligent pour répondre aux questions de vos membres automatiquement</div>
+            </div>
+
+            <div class="module-card">
+                <div class="module-icon">📊</div>
+                <div class="module-title">Dashboard Web</div>
+                <div class="module-desc">Interface web pour gérer votre bot et voir les statistiques en temps réel</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="reviews-section" id="avis">
+        <h2 class="section-title">⭐ Avis Clients</h2>
+        <p class="section-subtitle">Ce que disent nos utilisateurs</p>
+
+        <div class="review-form">
+            <h3 style="margin-bottom: 1.5rem; text-align: center;">Laisser un avis</h3>
+            <div class="form-group">
+                <label>Nom / Pseudo</label>
+                <input type="text" id="reviewName" placeholder="Votre nom">
+            </div>
+            <div class="form-group">
+                <label>Note</label>
+                <select id="reviewRating">
+                    <option value="5">⭐⭐⭐⭐⭐ (5/5)</option>
+                    <option value="4">⭐⭐⭐⭐ (4/5)</option>
+                    <option value="3">⭐⭐⭐ (3/5)</option>
+                    <option value="2">⭐⭐ (2/5)</option>
+                    <option value="1">⭐ (1/5)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Votre avis</label>
+                <textarea id="reviewText" placeholder="Partagez votre expérience..."></textarea>
+            </div>
+            <button class="btn" onclick="submitReview()">Publier l'avis</button>
+        </div>
+
+        <div class="reviews-grid" id="reviewsContainer">
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2 class="section-title">Prêt à commencer ?</h2>
+        <p class="section-subtitle">Rejoignez des centaines de serveurs qui utilisent déjà nos solutions</p>
+        <button class="btn" onclick="window.open('https://discord.gg/DAgdAXTntR', '_blank')">
+            Rejoindre Discord Factory
+        </button>
+    </section>
+
+    <script>
+        function submitReview() {
+            const name = document.getElementById('reviewName').value;
+            const rating = document.getElementById('reviewRating').value;
+            const text = document.getElementById('reviewText').value;
+
+            if (!name || !text) {
+                alert('Veuillez remplir tous les champs');
+                return;
+            }
+
+            const reviewsContainer = document.getElementById('reviewsContainer');
+            const stars = '⭐'.repeat(parseInt(rating));
+            
+            const reviewCard = document.createElement('div');
+            reviewCard.className = 'review-card';
+            reviewCard.style.animation = 'slideUp 0.5s ease-out';
+            reviewCard.innerHTML = `
+                <div class="review-header">
+                    <div class="review-avatar">👤</div>
+                    <div class="review-info">
+                        <div class="review-name">${name}</div>
+                        <div class="review-role">Membre de la communauté</div>
+                    </div>
+                    <div class="review-stars">${stars}</div>
+                </div>
+                <div class="review-text">${text}</div>
+            `;
+
+            reviewsContainer.appendChild(reviewCard);
+
+            document.getElementById('reviewName').value = '';
+            document.getElementById('reviewText').value = '';
+            document.getElementById('reviewRating').value = '5';
+
+            alert('Merci pour votre avis ! 🎉');
+        }
+    </script>
+</body>
+</html>
